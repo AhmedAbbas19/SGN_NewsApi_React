@@ -20,7 +20,6 @@ const NewsProvider = (props) => {
       setArticles(data.articles);
     } catch (error) {
       setArticles([]);
-      toast.info(error.response.data.message, { id: 0 });
     }
     setIsLoaing(false);
     authContext.updateSubsState(true);

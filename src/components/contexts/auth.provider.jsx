@@ -48,7 +48,6 @@ const AuthProvider = (props) => {
     setAuth(data.user);
     localStorage.setItem("token", data.token);
     setAuthorizationToken(data.token);
-    toast.success(data.message, { id: 0 });
     props.history.replace("/home");
   };
 
@@ -73,10 +72,7 @@ const AuthProvider = (props) => {
         setAuth(user);
         setUptoDate(false);
 
-        const { data } = await axios.post(
-          `${BACKEND_URL}/users/subscribe/${sourceId}`
-        );
-        toast.success(data.message, { id: 4 });
+        await axios.post(`${BACKEND_URL}/users/subscribe/${sourceId}`);
       } catch (err) {
         toast.error(err.response.data.message, { id: 5 });
       }
