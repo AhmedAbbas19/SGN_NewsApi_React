@@ -28,11 +28,11 @@ export default ({ article }) => {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {article.source.name.slice(0, 2)}
+            {article.source.name?.slice(0, 2)}
           </Avatar>
         }
-        title={`${article.title.slice(0, 60)}${
-          article.title.length > 60 ? "..." : ""
+        title={`${article.title?.slice(0, 60)}${
+          article.title?.length > 60 ? "..." : ""
         }`}
       />
       <CardMedia
