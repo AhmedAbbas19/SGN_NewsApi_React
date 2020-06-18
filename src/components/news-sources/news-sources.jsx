@@ -20,7 +20,8 @@ export default () => {
     if (!newsContext.sources.length) {
       newsContext.getSources();
     }
-  }, []);
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   if (newsContext.isLoading) {
     return (

@@ -9,6 +9,7 @@ function App() {
     document.title = "Some Good News";
     authContext.autoLogin();
   }, []);
+
   return <Index />;
 }
 

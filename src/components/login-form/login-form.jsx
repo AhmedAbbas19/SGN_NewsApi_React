@@ -35,56 +35,58 @@ const Login = (props) => {
     }
   }, [authContext.auth, props.history, props.location.search]);
 
-  return (
-    <Container className={classes.container}>
-      <form
-        className={classes.form}
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit(authContext.login)}
-      >
-        <Typography variant="h3" color="primary" gutterBottom>
-          Login
-        </Typography>
-        <Grid container spacing={4}>
-          <Grid item xs={12}>
-            <TextField
-              id="email"
-              label="Email"
-              fullWidth
-              name="email"
-              type="email"
-              inputRef={register}
-              helperText={errors.email?.message}
-              error={!!errors.email}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="password"
-              label="Password"
-              fullWidth
-              name="password"
-              type="password"
-              inputRef={register}
-              helperText={errors.password?.message}
-              error={!!errors.password}
-            />
-          </Grid>
-        </Grid>
-        <Button
-          className={classes.submitBtn}
-          variant="contained"
-          color="primary"
-          type="submit"
-          fullWidth
-          disabled={formState.isSubmitting}
+  if (!authContext.isLoading)
+    return (
+      <Container className={classes.container}>
+        <form
+          className={classes.form}
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit(authContext.login)}
         >
-          Login
-        </Button>
-      </form>
-    </Container>
-  );
+          <Typography variant="h3" color="primary" gutterBottom>
+            Login
+          </Typography>
+          <Grid container spacing={4}>
+            <Grid item xs={12}>
+              <TextField
+                id="email"
+                label="Email"
+                fullWidth
+                name="email"
+                type="email"
+                inputRef={register}
+                helperText={errors.email?.message}
+                error={!!errors.email}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="password"
+                label="Password"
+                fullWidth
+                name="password"
+                type="password"
+                inputRef={register}
+                helperText={errors.password?.message}
+                error={!!errors.password}
+              />
+            </Grid>
+          </Grid>
+          <Button
+            className={classes.submitBtn}
+            variant="contained"
+            color="primary"
+            type="submit"
+            fullWidth
+            disabled={formState.isSubmitting}
+          >
+            Login
+          </Button>
+        </form>
+      </Container>
+    );
+  return <></>;
 };
 
 export default Login;

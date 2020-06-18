@@ -8,7 +8,7 @@ import { Grid } from "@material-ui/core";
 
 export default () => {
   return (
-    <Grid item xs={12} sm={6} lg={4}>
+    <Grid item xs={12} sm={6} md={4}>
       <Card>
         <CardContent>
           <Skeleton

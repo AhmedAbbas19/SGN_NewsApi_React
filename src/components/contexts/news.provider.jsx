@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import { BACKEND_URL } from "../../config";
-import axios from "axios";
+import axios from "../../api/axios";
 import { withRouter } from "react-router-dom";
-import { toast } from "react-toastify";
 import { AuthContext } from "../contexts/auth.provider";
+import { toast } from "react-toastify";
 
 export const NewsContext = React.createContext();
 
@@ -13,13 +13,18 @@ const NewsProvider = (props) => {
   const [sources, setSources] = useState([]);
   const [isLoading, setIsLoaing] = useState(false);
 
-  const getSubscribedArticles = async () => {
+  const getSubscribedArticles = async (page) => {
     try {
       setIsLoaing(true);
-      const { data } = await axios.get(`${BACKEND_URL}/news`);
-      setArticles(data.articles);
+      const { data } = await axios.get(`${BACKEND_URL}/news/${page}`);
+      if (data.articles.length) {
+        setArticles(data.articles);
+      } else {
+        toast.info("No more Articles", { id: 0 });
+      }
     } catch (error) {
       setArticles([]);
+      authContext.errorHandler(error);
     }
     setIsLoaing(false);
     authContext.updateSubsState(true);
@@ -28,10 +33,10 @@ const NewsProvider = (props) => {
   const getSources = async () => {
     try {
       setIsLoaing(true);
-      const { data } = await axios.get(`${BACKEND_URL}/news/sources`);
+      const { data } = await axios.get(`${BACKEND_URL}/sources`);
       setSources(data.sources);
     } catch (error) {
-      toast.error(error.response.data.message, { id: 1 });
+      authContext.errorHandler(error);
     }
     setIsLoaing(false);
   };

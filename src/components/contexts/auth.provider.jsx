@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import { BACKEND_URL } from "../../config";
-import axios from "axios";
+import axios from "../../api/axios";
 import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
-import { setAuthorizationToken } from "../../utils/utils";
 
 export const AuthContext = React.createContext();
 
 const AuthProvider = (props) => {
   const [auth, setAuth] = useState(null);
-  const [upToDate, setUptoDate] = useState(true);
+  const [upToDate, setUptoDate] = useState(false);
   const [isLoading, setIsLoaing] = useState(false);
 
   const signup = async (values) => {
     try {
       const { data } = await axios.post(`${BACKEND_URL}/users/`, values);
       setAuthentication(data);
-    } catch (err) {
-      toast.error(err.response.data.message, { id: 1 });
+    } catch (error) {
+      errorHandler(error);
     }
   };
 
@@ -25,29 +24,28 @@ const AuthProvider = (props) => {
     try {
       const { data } = await axios.post(`${BACKEND_URL}/users/login`, values);
       setAuthentication(data);
-    } catch (err) {
-      toast.error(err.response.data.message, { id: 3 });
+    } catch (error) {
+      errorHandler(error);
     }
   };
 
   const autoLogin = async () => {
+    setIsLoaing(true);
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       try {
         const { data } = await axios.get(`${BACKEND_URL}/users/${storedToken}`);
         setAuth(data.user);
-        setAuthorizationToken(storedToken);
       } catch (error) {
-        toast.error("Your session has expired", { id: 2 });
-        logout();
+        errorHandler(error);
       }
     }
+    setIsLoaing(false);
   };
 
   const setAuthentication = (data) => {
     setAuth(data.user);
     localStorage.setItem("token", data.token);
-    setAuthorizationToken(data.token);
     props.history.replace("/home");
   };
 
@@ -73,10 +71,21 @@ const AuthProvider = (props) => {
         setUptoDate(false);
 
         await axios.post(`${BACKEND_URL}/users/subscribe/${sourceId}`);
-      } catch (err) {
-        toast.error(err.response.data.message, { id: 5 });
+      } catch (error) {
+        errorHandler(error);
       }
       setIsLoaing(false);
+    }
+  };
+
+  const errorHandler = (error) => {
+    if (error.response.status === 401) {
+      toast.error("Your session has expired", { id: 0 });
+      logout();
+    } else if (error.response.status >= 500) {
+      toast.error("Something went wrong", { id: 1 });
+    } else {
+      toast.error(error.response.data.message, { id: 2 });
     }
   };
 
@@ -96,6 +105,7 @@ const AuthProvider = (props) => {
         upToDate,
         updateSubsState,
         isLoading,
+        errorHandler,
       }}
     >
       {props.children}

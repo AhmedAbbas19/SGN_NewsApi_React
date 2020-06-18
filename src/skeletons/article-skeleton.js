@@ -7,10 +7,6 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  card: {
-    maxWidth: 345,
-    margin: theme.spacing(2),
-  },
   media: {
     height: 190,
   },
@@ -20,8 +16,8 @@ export default () => {
   const classes = useStyles();
 
   return (
-    <Grid item xs={12} sm={6} lg={4}>
-      <Card className={classes.card}>
+    <Grid item xs={12} sm={6} md={4}>
+      <Card>
         <CardHeader
           avatar={
             <Skeleton

@@ -24,7 +24,7 @@ export default ({ article }) => {
   };
 
   return (
-    <Card className={classes.root}>
+    <Card>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
@@ -32,7 +32,7 @@ export default ({ article }) => {
           </Avatar>
         }
         title={`${article.title.slice(0, 60)}${
-          article.title.length > 60 && "..."
+          article.title.length > 60 ? "..." : ""
         }`}
       />
       <CardMedia

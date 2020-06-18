@@ -15,10 +15,20 @@ import {
 import useStyles from "./signup-form-styles";
 
 const schema = Yup.object().shape({
-  fullName: Yup.string().required("Full name is required").min(4).max(30),
+  fullName: Yup.string()
+    .required("Full name is required")
+    .trim()
+    .min(4)
+    .max(30)
+    .matches(/^[a-zA-Z]+.*$/, "Full name must start with alphabetic letter")
+    .matches(
+      /^[a-zA-Z0-9_.-\s]*$/,
+      "Full name can't contain special characters"
+    ),
   email: Yup.string().email("Email is invalid").required("Email is required"),
   password: Yup.string()
     .required("Password is required")
+    .trim()
     .min(8)
     .max(30)
     .matches(
