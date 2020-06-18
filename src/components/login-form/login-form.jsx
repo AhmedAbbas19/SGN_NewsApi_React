@@ -11,6 +11,7 @@ import {
   Typography,
   Grid,
   Button,
+  LinearProgress,
 } from "@material-ui/core";
 import useStyles from "./login-form-styles";
 
@@ -86,7 +87,7 @@ const Login = (props) => {
         </form>
       </Container>
     );
-  return <></>;
+  return <LinearProgress />;
 };
 
 export default Login;
